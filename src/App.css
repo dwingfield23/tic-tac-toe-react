@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation for square click */
+@keyframes pop {
+	0% {
+		transform: scale(0.8);
+		opacity: 0.5;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.animate-pop {
+	animation: pop 0.2s ease-in;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Winning line styles */
+.win-line {
+	position: absolute;
+	height: 4px;
+	background-color: red;
+	z-index: 10;
+	transition: all 0.3s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Horizontal */
+.horizontal-top {
+	top: 39px;
+	left: 0;
+	right: 0;
+}
+.horizontal-middle {
+	top: 120px;
+	left: 0;
+	right: 0;
+}
+.horizontal-bottom {
+	top: 200px;
+	left: 0;
+	right: 0;
 }
 
-.App-link {
-  color: #61dafb;
+/* Vertical */
+.vertical-left {
+	top: 0;
+	left: 38px;
+	width: 4px;
+	height: 239px;
+}
+.vertical-middle {
+	top: 0;
+	left: 118px;
+	width: 4px;
+	height: 239px;
+}
+.vertical-right {
+	top: 0;
+	left: 198px;
+	width: 4px;
+	height: 239px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Diagonal */
+.diagonal-main {
+	top: 2px;
+	left: 5px;
+	width: 330px;
+	height: 4px;
+	transform: rotate(45deg);
+	transform-origin: top left;
+}
+.diagonal-anti {
+	top: 3px;
+	left: -95px;
+	width: 330px;
+	height: 4px;
+	transform: rotate(-45deg);
+	transform-origin: top right;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 0.3s ease-out forwards;
 }
