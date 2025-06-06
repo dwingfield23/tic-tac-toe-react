@@ -214,7 +214,7 @@ const Board = () => {
   };
   
   
-  /*
+  //*
   const handleClick = (i) => {
     const currentPlayer = xIsNext ? "X" : "O";
 
