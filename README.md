@@ -17,7 +17,7 @@ This project is a feature-rich implementation of the classic Tic Tac Toe game, d
 - ✅ Player vs AI mode with 3 difficulty levels:
     - 🟢 Easy (random)
     - 🟡 Medium (block or win)
-    - 🔴 Hard (Minimax – perfect play)
+    - 🔴 Hard (Minimax)
 - ✅ Choose who goes first (Player or AI)
 - ✅ Score tracking between rounds
 - ✅ Reset score button
