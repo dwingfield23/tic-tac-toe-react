@@ -120,101 +120,7 @@ const Board = () => {
     }
   }, [winner, hasCelebrated, squares]);
   
-  const getEasyAIMove = (squares) => {
-    const emptyIndexes = squares
-      .map((val, idx) => (val === null ? idx : null))
-      .filter((val) => val !== null);
-    if (emptyIndexes.length === 0) return null;
-    const randomIndex = Math.floor(Math.random() * emptyIndexes.length);
-    return emptyIndexes[randomIndex];
-  };
-  
-  const getMediumAIMove = (squares, aiSymbol) => {
-    const opponent = aiSymbol === "X" ? "O" : "X";
-    
-    const winningCombos = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    
-    // 1. Try to win
-    for (let [a, b, c] of winningCombos) {
-      const line = [squares[a], squares[b], squares[c]];
-      const counts = line.filter((val) => val === aiSymbol).length;
-      const empty = [a, b, c].find((i) => squares[i] === null);
-      if (counts === 2 && empty !== undefined) return empty;
-    }
-    
-    // 2. Try to block opponent
-    for (let [a, b, c] of winningCombos) {
-      const line = [squares[a], squares[b], squares[c]];
-      const counts = line.filter((val) => val === opponent).length;
-      const empty = [a, b, c].find((i) => squares[i] === null);
-      if (counts === 2 && empty !== undefined) return empty;
-    }
-    
-    // 3. Pick random
-    const emptyIndexes = squares
-      .map((val, idx) => (val === null ? idx : null))
-      .filter((val) => val !== null);
-    if (emptyIndexes.length === 0) return null;
-    const randomIndex = Math.floor(Math.random() * emptyIndexes.length);
-    return emptyIndexes[randomIndex];
-  };
-  
-  const getHardAIMove = (squares, aiSymbol) => {
-    const opponent = aiSymbol === "X" ? "O" : "X";
 
-    
-    const getAvailableMoves = (board) =>
-      board.map((val, idx) => (val === null ? idx : null)).filter((i) => i !== null);
-  
-    const minimax = (board, isMaximizing) => {
-      const winner = calculateWinner(board);
-      if (winner) {
-        if (winner.winner === aiSymbol) return { score: 1 };
-        else if (winner.winner === opponent) return { score: -1 };
-      } else if (board.every((sq) => sq !== null)) {
-        return { score: 0 }; // Tie
-      }
-    
-      const moves = [];
-  
-      
-    
-      for (let index of getAvailableMoves(board)) {
-        const newBoard = [...board];
-        newBoard[index] = isMaximizing ? aiSymbol : opponent;
-        const result = minimax(newBoard, !isMaximizing);
-        moves.push({ index, score: result.score });
-        console.log('moves',moves)
-      }
-      
-     
-    
-      if (moves.length === 0) {
-        return { score: 0 };
-      }
-    
-      if (isMaximizing) {
-        return moves.reduce((best, move) => (move.score > best.score ? move : best));
-      } else {
-        return moves.reduce((best, move) => (move.score < best.score ? move : best));
-      }
-    };
-    
-    const best = minimax(squares, true);
-    return best.index;
-  };
-  
-  
-  /*
   const handleClick = (i) => {
     const currentPlayer = xIsNext ? "X" : "O";
 
@@ -234,7 +140,7 @@ const Board = () => {
     
     setXIsNext(!xIsNext);
   };
-  //*/
+
   const renderSquare = (i) => {
     return (
       <Square
@@ -440,6 +346,99 @@ const calculateWinner = (squares) => {
     }
   }
   return null;
+};
+
+const getEasyAIMove = (squares) => {
+  const emptyIndexes = squares
+      .map((val, idx) => (val === null ? idx : null))
+      .filter((val) => val !== null);
+  if (emptyIndexes.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * emptyIndexes.length);
+  return emptyIndexes[randomIndex];
+};
+
+const getMediumAIMove = (squares, aiSymbol) => {
+  const opponent = aiSymbol === "X" ? "O" : "X";
+  
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  
+  // 1. Try to win
+  for (let [a, b, c] of winningCombos) {
+    const line = [squares[a], squares[b], squares[c]];
+    const counts = line.filter((val) => val === aiSymbol).length;
+    const empty = [a, b, c].find((i) => squares[i] === null);
+    if (counts === 2 && empty !== undefined) return empty;
+  }
+  
+  // 2. Try to block opponent
+  for (let [a, b, c] of winningCombos) {
+    const line = [squares[a], squares[b], squares[c]];
+    const counts = line.filter((val) => val === opponent).length;
+    const empty = [a, b, c].find((i) => squares[i] === null);
+    if (counts === 2 && empty !== undefined) return empty;
+  }
+  
+  // 3. Pick random
+  const emptyIndexes = squares
+      .map((val, idx) => (val === null ? idx : null))
+      .filter((val) => val !== null);
+  if (emptyIndexes.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * emptyIndexes.length);
+  return emptyIndexes[randomIndex];
+};
+
+const getHardAIMove = (squares, aiSymbol) => {
+  const opponent = aiSymbol === "X" ? "O" : "X";
+  
+  
+  const getAvailableMoves = (board) =>
+      board.map((val, idx) => (val === null ? idx : null)).filter((i) => i !== null);
+  
+  const minimax = (board, isMaximizing) => {
+    const winner = calculateWinner(board);
+    if (winner) {
+      if (winner.symbol === aiSymbol) return {score: 1};
+      else if (winner.symbol === opponent) return {score: -1};
+    } else if (board.every((sq) => sq !== null)) {
+      return {score: 0}; // Tie
+    }
+    
+    const moves = [];
+    
+    
+    
+    for (let index of getAvailableMoves(board)) {
+      const newBoard = [...board];
+      newBoard[index] = isMaximizing ? aiSymbol : opponent;
+      const result = minimax(newBoard, !isMaximizing);
+      moves.push({ index, score: result.score });
+      console.log('moves',moves)
+    }
+    
+    
+    
+    if (moves.length === 0) {
+      return { score: 0 };
+    }
+    
+    if (isMaximizing) {
+      return moves.reduce((best, move) => (move.score > best.score ? move : best));
+    } else {
+      return moves.reduce((best, move) => (move.score < best.score ? move : best));
+    }
+  };
+  
+  const best = minimax(squares, true);
+  return best.index;
 };
 
 // Return a CSS class for the red line based on winning combination
